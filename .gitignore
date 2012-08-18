@@ -1,0 +1,6 @@
+# Built modules
+*.i
+*.a
+
+# .bmx directories
+.bmx/
