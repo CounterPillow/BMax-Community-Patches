@@ -47,9 +47,15 @@ Type TSocket
 		If n<0 Return 0
 		Return n
 	End Method
+	
+	Method SendTo( buf:Byte Ptr, count, flags = 0, ip, port )
+		Local n = sendto_( _socket, buf, count, flags, ip, port )
+		If n < 0 Return 0
+		Return n
+	EndMethod
 
 	Method Recv( buf:Byte Ptr,count,flags=0 )
-		Local n=recv_( _socket,buf,count,flags )
+		Local n=recvfrom_( _socket,buf,count,flags, _lastUDPIp, _lastUDPPort )
 		If n<0 Return 0
 		Return n
 	End Method
@@ -175,6 +181,8 @@ Type TSocket
 	
 	Field _localIp,_localPort
 	Field _remoteIp,_remotePort
+	
+	Field _lastUDPIp, _lastUDPPort
 	
 End Type
 
@@ -350,3 +358,20 @@ Function HostName$( HostIp )
 	Local p:Byte Ptr=gethostbyaddr_( Varptr addr,4,AF_INET_ )
 	If p Return String.FromCString(p)
 End Function
+
+Rem
+bbdoc: Get IP of last UDP message sender
+returns: the sender ip of the last recieved UDP message, or 0 if none recieved
+End Rem
+Function LastUDPSenderIP( socket:TSocket )
+	Return Socket._lastUDPIp
+EndFunction
+
+Rem
+bbdoc: Get port from which the last UDP message was sent
+returns: the sender's port, or 0 if none recieved
+End Rem
+Function LastUDPSenderPort( socket:TSocket )
+	Return Socket._lastUDPPort
+EndFunction
+
