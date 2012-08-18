@@ -87,7 +87,7 @@ Function remove_( path$ )
 Function opendir_( path$ )
 Function closedir_( dir )
 Function readdir_$( dir )
-Function stat_( path$,st_mode Var,st_size Var,st_mtime Var,st_ctime Var )
+Function stat_( path$,st_mode Var,st_size:Long Var,st_mtime Var,st_ctime Var )
 Function system_( cmd$ )
 
 'misc

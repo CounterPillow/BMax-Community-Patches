@@ -1104,7 +1104,7 @@ bbdoc: Returns a case sensitive filename if it exists from a case insensitive fi
 End Rem
 Function CasedFileName$(path$)
 	Local	dir,sub$,s$,f$,folder$,p
-	Local	mode,size,mtime,ctime
+	Local	mode,size:Long,mtime,ctime
         
 	If stat_( path,mode,size,mtime,ctime )=0
 		mode:&S_IFMT_

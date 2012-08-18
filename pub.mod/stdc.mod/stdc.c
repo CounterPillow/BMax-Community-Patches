@@ -1,9 +1,14 @@
 
+#define __USE_LARGEFILE64
+#define _LARGEFILE_SOURCE
+#define _LARGEFILE64_SOURCE
+
 #include <brl.mod/blitz.mod/blitz.h>
 
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdint.h>
 
 #if _WIN32
 
@@ -131,18 +136,18 @@ BBString *readdir_( int dir ){
 	return t ? bbStringFromCString( t->d_name ) : &bbEmptyString;
 }
 
-int stat_( BBString *path,int *t_mode,int *t_size,int *t_mtime,int *t_ctime ){
+int stat_( BBString *path,int *t_mode,int64_t *t_size,int *t_mtime,int *t_ctime ){
 	int i;
-	struct _stat st;
+	struct _stati64 st;
 	
 	for( i=0;i<path->length;++i ){
 		if( path->buf[i]=='<' || path->buf[i]=='>' ) return -1;
 	}
 	
 	if( _bbusew ){
-		if( _wstat( bbTmpWString(path),&st ) ) return -1;
+		if( _wstat64( bbTmpWString(path),&st ) ) return -1;
 	}else{
-		if( _stat( bbTmpCString(path),&st ) ) return -1;
+		if( _stat64( bbTmpCString(path),&st ) ) return -1;
 	}
 
 	*t_mode=st.st_mode;
@@ -261,7 +266,7 @@ int closedir_( int dir ){
 	return closedir( (DIR*)dir );
 }
 
-int stat_( BBString *path,int *t_mode,int *t_size,int *t_mtime,int *t_ctime ){
+int stat_( BBString *path,int *t_mode,long *t_size,int *t_mtime,int *t_ctime ){
 	struct stat st;
 	if( stat( bbTmpUTF8String(path),&st ) ) return -1;
 	*t_mode=st.st_mode;
