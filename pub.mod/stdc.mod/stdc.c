@@ -266,9 +266,9 @@ int closedir_( int dir ){
 	return closedir( (DIR*)dir );
 }
 
-int stat_( BBString *path,int *t_mode,long *t_size,int *t_mtime,int *t_ctime ){
-	struct stat st;
-	if( stat( bbTmpUTF8String(path),&st ) ) return -1;
+int stat_( BBString *path,int *t_mode,int64_t *t_size,int *t_mtime,int *t_ctime ){
+	struct stat64 st;
+	if( stat64( bbTmpUTF8String(path),&st ) ) return -1;
 	*t_mode=st.st_mode;
 	*t_size=st.st_size;
 	*t_mtime=st.st_mtime;
