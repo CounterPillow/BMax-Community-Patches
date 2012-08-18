@@ -14,5 +14,12 @@ Installation
 ------------
 
 Delete the original brl.mod and pub.mod, clone the git repo and replace your brl.mod and pub.mod folders by those in the git repository.
+You can also git-init the mod directory and add the remote manually, as git clone only allows you to clone into empty directories.
+Example:
+
+    cd mod/
+    git init .
+    git remote add upstream git://github.com/CounterPillow/BMax-Community-Patches.git
+    git pull upstream master
 
 After that, rebuild the modules (and documentation) either with bmk or inside the BlitzMax IDE.
